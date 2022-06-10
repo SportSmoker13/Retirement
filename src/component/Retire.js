@@ -1,7 +1,24 @@
 import React, { useState } from "react";
 import logo from "../LOGO.jpg";
-import 'bootstrap/dist/css/bootstrap.min.css';
+import "bootstrap/dist/css/bootstrap.min.css";
+import Modal from "react-modal";
 
+const customStyles = {
+  content: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    overflowY: "hidden",
+    backgroundColor: "black",
+    color: "white",
+    // top: '40%',
+    // left: '40%',
+    // right: 'auto',
+    // bottom: 'auto',
+    // marginRight: '-50%',
+    // transform: 'translate(-50%, -50%)',
+  },
+};
 
 export default function Retire() {
   const [dob, setDob] = useState();
@@ -12,10 +29,23 @@ export default function Retire() {
 
   const [monExp, setMonExp] = useState();
 
-  const scrollFaq = () => {
-    const anchor = document.querySelector("#home-faq");
-    anchor.scrollIntoView({ behavior: "smooth", block: "center" });
-  };
+  const [modalIsOpen, setIsOpen] = useState(false);
+
+  function openModal() {
+    setIsOpen(true);
+  }
+  function afterOpenModal() {
+    // references are now sync'd and can be accessed.
+  }
+
+  function closeModal() {
+    setIsOpen(false);
+  }
+
+  // const scrollFaq = () => {
+  //   const anchor = document.querySelector("#home-faq");
+  //   anchor.scrollIntoView({ behavior: "smooth", block: "center" });
+  // };
 
   function getAge(dateString) {
     var today = new Date();
@@ -39,9 +69,10 @@ export default function Retire() {
       const gap = retireAge - age;
       const inf = inflation / 100;
       // const monE = (currentExpense * (1 + inf)) ^ gap;
-      const monE = currentExpense*Math.pow(1 + inf,gap)
+      const monE = currentExpense * Math.pow(1 + inf, gap);
       setMonExp(monE);
-      setData(true);
+      // setData(true);
+      openModal();
     } else {
       alert("Enter Data!!!");
     }
@@ -71,7 +102,7 @@ export default function Retire() {
                   }}
                 >
                   <img
-                    onClick={() => scrollFaq()}
+                    // onClick={() => scrollFaq()}
                     src={logo}
                     height="150px"
                     width="150px"
@@ -187,7 +218,7 @@ export default function Retire() {
                       }}
                       onClick={async () => {
                         await next();
-                        scrollFaq();
+                        // scrollFaq();
                       }}
                     >
                       Next
@@ -204,7 +235,93 @@ export default function Retire() {
         </div>
       </div>
 
-      {data ? (
+      <Modal
+        isOpen={modalIsOpen}
+        onAfterOpen={afterOpenModal}
+        onRequestClose={closeModal}
+        style={customStyles}
+        contentLabel="Example Modal"
+      >
+        <div
+          style={{
+            fontSize: "22px",
+            padding: "20px",
+            textAlign: "center",
+            marginTop: "100px",
+            marginBottom: "100px",
+            lineHeight: "35px",
+          }}
+          id="home-faq"
+        >
+          <p>
+            Your Estimated Monthly Expenses at age {retireAge} after retirement
+            will be{" "}
+            <label style={{ color: "#ffd700", fontWeight: "bold" }}>
+              {" "}
+              {monExp}
+            </label>
+          </p>
+          <p>
+            It’s Easy to understand that your monthly expenses will be % higher
+            than your current monthly expenses.
+          </p>
+          <p>
+            It’s tough to manage your post retirement expenses, as your salary
+            or income generally reduces drastically after retirement. So you
+            have to plan your retirement well in advance.
+          </p>
+          <p>
+            Planning your retirement is not a child’s play, it took years of
+            planning and execution.
+          </p>
+          <p>
+            Without proper guidance in creating retirement corpus, one can land
+            up in a financial trouble at retirement age.
+          </p>
+          <p>
+            To find out “HOW LONG YOUR RETIREMENT CORPUS CAN SUPPORT YOUR FAMILY
+            AFTER YOUR RETIREMENT” please click here.
+          </p>
+          <p>
+            Ofcourse, we need quite a few information about your earnings,
+            expenses, investments and perception on financial planning, don’t
+            worry, your data is safe and will not be share it with any third
+            party, it’s our promise.
+          </p>
+          <p>
+            So let’s go and “CHECK THAT YOUR PLANNING ON RETIRMENT CORPUS IS IN
+            THE RIGHT DIRECTION OR NOT” please{" "}
+            <label>
+              Already have an account?{" "}
+              <label
+                style={{
+                  cursor: "pointer",
+                  color: "#ffd700",
+                  fontWeight: "bold",
+                }}
+                onClick={() => {
+                  closeModal();
+                  window.location.href =
+                    process.env.REACT_APP_FRONTEND_URL +
+                    "/register?retireAge=" +
+                    retireAge +
+                    "&dob=" +
+                    dob +
+                    "&currentExpense=" +
+                    currentExpense +
+                    "&inflation=" +
+                    inflation;
+                }}
+              >
+                {" "}
+                click here.
+              </label>
+            </label>
+          </p>
+        </div>
+      </Modal>
+
+      {/* {data ? (
         <div
           style={{
             fontSize: "22px",
@@ -281,7 +398,7 @@ export default function Retire() {
         </div>
       ) : (
         ""
-      )}
+      )} */}
     </div>
   );
 }

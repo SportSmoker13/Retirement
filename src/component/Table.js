@@ -66,7 +66,7 @@ export default function Table(props) {
   useEffect(() => {
     const gData = async () => {
       await axios
-        .get("https://sawaal1croreka.store//api/user/" + props.id)
+        .get(process.env.REACT_APP_BACKEND_URL+"/api/user/" + props.id)
         .then((res) => {
           setInrRate(res.data[0].expectedInvestmentRate / 100);
           generateData(res.data[0]);

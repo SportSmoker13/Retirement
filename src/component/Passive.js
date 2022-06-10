@@ -24,7 +24,7 @@ export default function Passive() {
       retirementCorpus !== undefined
     ) {
       axios
-        .post("https://sawaal1croreka.store//api/user/id", {
+        .post(process.env.REACT_APP_BACKEND_URL+"/api/user/id", {
           currentMonthly: currentMonthly,
           fixedMonthly: fixedMonthly,
           expectedGrowth: expectedGrowth,
@@ -34,7 +34,7 @@ export default function Passive() {
         })
         .then((res) => {
           if (res.data === "success") {
-            window.location.href = "https://sawaal1croreka.com/rsc/table?id=" + id;
+            window.location.href = process.env.REACT_APP_FRONTEND_URL + "/table?id=" + id;
           } else {
             console.log("Failed!!");
           }

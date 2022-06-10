@@ -31,7 +31,7 @@ export default function Register() {
       terms === true
     ) {
       axios
-        .post("https://sawaal1croreka.store//api/user", {
+        .post(process.env.REACT_APP_BACKEND_URL+"/api/user", {
           name: name,
           mobile: mobile,
           e_mail: e_mail,
@@ -44,7 +44,7 @@ export default function Register() {
         })
         .then((res) => {
           if (res.data !== "Email Already Exists!!!") {
-            window.location.href = "https://sawaal1croreka.com/rsc/passive?id=" + res.data.id;
+            window.location.href = process.env.REACT_APP_FRONTEND_URL + "/passive?id=" + res.data.id;
           } else {
             console.log("Email Already Exists!!!");
           }
