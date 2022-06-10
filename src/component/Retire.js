@@ -38,7 +38,8 @@ export default function Retire() {
       const age = getAge(dob);
       const gap = retireAge - age;
       const inf = inflation / 100;
-      const monE = (currentExpense * (1 + inf)) ^ gap;
+      // const monE = (currentExpense * (1 + inf)) ^ gap;
+      const monE = currentExpense*Math.pow(1 + inf,gap)
       setMonExp(monE);
       setData(true);
     } else {
@@ -216,10 +217,10 @@ export default function Retire() {
           id="home-faq"
         >
           <p>
-            Your Estimated Monthly Expenses at age 60 after retirement will be{" "}
+            Your Estimated Monthly Expenses at age {retireAge} after retirement will be{" "}
             <label style={{ color: "#ffd700", fontWeight: "bold" }}>
               {" "}
-              {monExp}
+              {monExp.toFixed(2)}
             </label>
           </p>
           <p>

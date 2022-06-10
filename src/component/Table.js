@@ -32,13 +32,11 @@ export default function Table(props) {
     let i;
     for (i = 0; i < ct; i++) {
       let yearlyExpense =
-        ((parseInt(res.currentExpense) * (1 + parseInt(res.inflation) / 100)) ^
-          (res.retireAge + i - getAge(res.dob))) *
-        12;
+        Math.pow((parseInt(res.currentExpense) * (1 + parseInt(res.inflation) / 100)),(res.retireAge + i - getAge(res.dob))*12);
       let yearlyPassiveIncome =
-        ((parseInt(res.currentExpense) * (1 + parseInt(res.inflation) / 100)) ^
-          ((parseInt(res.retireAge) + i - getAge(res.dob)) * 12)) +
-        res.fixedMonthlyPassiveIncomeAfterRetirement * 12;
+      Math.pow((parseInt(res.currentExpense) * (1 + parseInt(res.inflation) / 100)),
+          (parseInt(res.retireAge) + i - getAge(res.dob)) * 12 +
+        res.fixedMonthlyPassiveIncomeAfterRetirement * 12)
       let corpus;
       if (i === 0) {
         corpus = res.retirementCorpus;
